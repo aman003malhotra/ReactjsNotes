@@ -28,3 +28,5 @@
 - Inputs -> old state + dispatched Action.
 - Output -> New state Object.
 - Should be a pure function
+- Should be side-effect free
+- should be synchronous
