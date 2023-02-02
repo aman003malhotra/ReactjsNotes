@@ -20,7 +20,11 @@
 
 ### Disadvantages of React Context
 - Complex setup and Mangement.
-- Perfromance
+- Performance
 - In more complex apps, managing React Context can lead to deeply nested JSX code and /or huge "Context Provider" components
 - React context is not optimized for high frequency changes.
 
+### Reducer Function
+- Inputs -> old state + dispatched Action.
+- Output -> New state Object.
+- Should be a pure function
