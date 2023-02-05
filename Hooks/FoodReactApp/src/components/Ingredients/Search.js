@@ -11,9 +11,7 @@ const Search = React.memo(props => {
   useEffect(() => {
     const timer = setTimeout(() =>{
       if(filtered === inputRef.current.value){
-        const query = filtered.length === 0 
-        ? '' 
-        : `?orderBy = "title"&equalTo="${filtered}"`;
+        const query = filtered.length === 0?'':`?orderBy="title"&equalTo="${filtered}"`;
         fetch('https://react-http2-3ed33-default-rtdb.firebaseio.com/ingredients.json'+query)
         .then((response) => {
           return response.json()
@@ -38,7 +36,7 @@ const Search = React.memo(props => {
       clearInterval(timer);
     };
   }, [filtered, filteredIngredient, inputRef]);
-  
+
   return (
     <section className="search">
       <Card>
