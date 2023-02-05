@@ -11,3 +11,9 @@
 - Could contain and manage state.
 - More overhead code(compared to functional component)
 
+## Understanding useState
+- Only use hooks on the root level not in some function or block of code
+![Screenshot](useState.png)
+
+## Understanding useEffect
+- Dependancy of [] , useEffect() acts like componentDidMount, It runs only once (after the first render)

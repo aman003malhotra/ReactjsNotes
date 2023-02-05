@@ -5,12 +5,17 @@ import './IngredientForm.css';
 
 const IngredientForm = React.memo(props => {
   // first element is always the current state value
-  const inputState = useState({title:'',amount:''});
+  // in class based components the state must be an object
+  // const [ inputState, setInputState ] = useState({title:'',amount:''});
+  const [title, setTitle] = useState('');
+  const [amount, setAmount] = useState('');
+
 
 
 
   const submitHandler = event => {
     event.preventDefault();
+    props.onAddIngredient({title:title, amount:amount});
     // ...
   };
 
@@ -23,14 +28,11 @@ const IngredientForm = React.memo(props => {
             <input 
               type="text" 
               id="title" 
-              value={inputState[0].title}
+              value={title}
               // events in react are different from DOM events 
               onChange={event =>{
-                const newTitle = event.target.value;
-                inputState[1]((prevInputState)=>({
-                  title:newTitle, 
-                  amount:prevInputState.amount
-                }))}}
+                setTitle(event.target.value)
+              }}
               />
           </div>
           <div className="form-control">
@@ -38,14 +40,10 @@ const IngredientForm = React.memo(props => {
             <input 
               type="number" 
               id="amount" 
-              value={inputState[0].amount} 
+              value={amount} 
               // event does not get updated every time in react
               onChange={event =>{
-                const newAmount = event.target.value;
-                inputState[1]((prevInputState)=>({
-                  amount:newAmount, 
-                  title:prevInputState.title
-                }))
+                setAmount(event.target.value)
               }}
               />
           </div>
