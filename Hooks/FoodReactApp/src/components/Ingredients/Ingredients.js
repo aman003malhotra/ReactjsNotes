@@ -21,25 +21,11 @@ const ingredientReducer = (currentIngredient, action) => {
 }
 
 
-const httpReducer = (currHttpState, action) =>{
-  switch(action.type){
-    case 'SEND':
-      return {loading : true, error : null};
-    case 'RESPONSE':
-      return {...currHttpState, loading: false};
-    case 'ERROR':
-      return {loading:false, error: action.errorData};
-    case 'CLEAR':
-      return {...currHttpState, error:null};
-    default:
-      throw new Error('Should not be reached')
-  }
-}
+
 
 function Ingredients() {
   
   const [ingredients, dispatch] = useReducer(ingredientReducer, []);
-  const [httpState, dispatchHttp] = useReducer(httpReducer, {loading : false, error:null});
 
 
   // const [ingredients, setIngredients] = useState([]);
@@ -104,20 +90,7 @@ function Ingredients() {
     // setIsLoading(true);
     dispatchHttp({type:'SEND'});
 
-    fetch(`https://react-http2-3ed33-default-rtdb.firebaseio.com/ingredients/${ingredientId}.json`,
-    {
-      method:'DELETE'
-    }).then(response =>{
-      // setIsLoading(false);
-      dispatchHttp({type:'RESPONSE'});
-
-      dispatch({type:'DELETE', id:ingredientId});
-      // setIngredients(prevIngredient => {
-      //   return prevIngredient.filter(ingredient => {return ingredient.id !== ingredientId});
-      // })
-    }).catch((error) => {
-      dispatchHttp({type:'ERROR', errorData:'Something went Wrong'});
-    });
+    
       // err => setError('Something went wrong')  
   }, [])
 
