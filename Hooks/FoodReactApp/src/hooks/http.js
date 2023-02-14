@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useCallback } from "react";
 
 // each component gets its own snapshot
 const httpReducer = (currHttpState, action) =>{
@@ -24,7 +24,8 @@ const useHttp = () => {
     data:null
     });
 
-  const sendRequest = (url, method, body) => {
+//  we have a created a function becuase we don't want to run it everytime the useHttp is called
+  const sendRequest = useCallback((url, method, body) => {
     dispatchHttp({type:'SEND'});
     fetch(url,
     {
@@ -42,12 +43,13 @@ const useHttp = () => {
     }).catch((error) => {
         dispatchHttp({type:'ERROR', errorData:'Something went Wrong'});
     });
-  };
+  }, []);
 
   return {
     isLoading:httpState.loading,
     data:httpState.data,
-    error:httpState.error
+    error:httpState.error,
+    sendRequest:sendRequest,
   }
   
 };

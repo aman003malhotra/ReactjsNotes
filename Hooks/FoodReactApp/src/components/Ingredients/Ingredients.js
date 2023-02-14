@@ -4,6 +4,7 @@ import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
 import ErrorModal from '../UI/ErrorModal';
 import Search from './Search';
+import useHttp from '../../hooks/http';
 
 // When working with useReducer(), React will
 // re-render the component whenever your reducer returns the new state.
@@ -20,17 +21,10 @@ const ingredientReducer = (currentIngredient, action) => {
   }
 }
 
-
-
-
 function Ingredients() {
   
   const [ingredients, dispatch] = useReducer(ingredientReducer, []);
-
-
-  // const [ingredients, setIngredients] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState(null);
+  const {isLoading, error, data, sendRequest} = useHttp();
 
   // without dependancy then it will run after every render
   useEffect(() => {
@@ -87,17 +81,11 @@ function Ingredients() {
   }, []);
 
   const removeIngredientHandler = useCallback((ingredientId) =>{
-    // setIsLoading(true);
-    dispatchHttp({type:'SEND'});
+   sendRequest(`https://react-http2-3ed33-default-rtdb.firebaseio.com/ingredients/${ingredientId}.json`,
+   'DELETE'
+   );
+  }, [sendRequest]);
 
-    
-      // err => setError('Something went wrong')  
-  }, [])
-
-// state updates are batched together
-//   in the same synchronous (!) execution cycle (e.g. in the same function) will NOT trigger two component re-render cycles.
-// Instead, the component will only re-render once and both state updates will be applied simultaneously.
-// Not directly related, but also sometimes misunderstood, is when the new state value is available.
   const clearError = () => {
     // setError(null);
     // setIsLoading(false);
@@ -105,9 +93,11 @@ function Ingredients() {
   }
   return (
     <div className="App">
-      {httpState.error & <ErrorModal onClose={clearError}>{httpState.error}</ErrorModal>}
-      <IngredientForm onAddIngredient = {addIngredient} loading={httpState.loading}/>
-
+      {error & <ErrorModal onClose={clearError}>{error}</ErrorModal>}
+      <IngredientForm 
+        onAddIngredient = {addIngredient} 
+        loading={isLoading}
+      />
       <section>
         <Search filteredIngredient={filteredIngredientHandler} />
         {/* Need to add list here! */}
